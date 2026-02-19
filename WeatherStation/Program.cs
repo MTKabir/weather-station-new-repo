@@ -1,13 +1,15 @@
 using Microsoft.Azure.Functions.Worker;
-using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WeatherStation.Services;
 
-var builder = FunctionsApplication.CreateBuilder(args);
+var host = new HostBuilder()
+    .ConfigureFunctionsWorkerDefaults()
+    .ConfigureServices(services =>
+    {
+        services.AddHttpClient();
+        services.AddSingleton<JobStatusService>();
+    })
+    .Build();
 
-builder.Services.AddHttpClient();
-
-builder.Services.AddSingleton<JobStatusService>();
-builder.Build().Run();
-
+host.Run();

@@ -46,8 +46,8 @@ namespace WeatherStation.Functions
             _tableClient.CreateIfNotExists();
         }
 
-        [Function("ImageProcessor")]
-        public async Task Run(
+    [Function("ImageProcessor")]
+    public async Task Run(
     [QueueTrigger("image-process-queue", Connection = "StorageConnection")]
     string queueMessage)
         {

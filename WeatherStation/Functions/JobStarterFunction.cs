@@ -13,7 +13,7 @@ using WeatherStation.Models;
 
 namespace WeatherStation.Functions
 {
-    internal class JobStarterFunction
+    public class JobStarterFunction
     {
         private readonly HttpClient _httpClient;
         private readonly QueueClient _imageQueueClient;
