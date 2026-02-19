@@ -1,7 +1,9 @@
 param(
     [string]$resourceGroup = "rg-weatherstation",
     [string]$location = "westeurope",
-    [string]$functionAppName = "func-weatherstation-$((Get-Random -Maximum 9999))"
+    [string]$functionAppName = "func-weatherstation-$((Get-Random -Maximum 9999))",
+    [string]$storageAccountName = "stweather$((Get-Random -Maximum 99999))",
+    [string]$appInsightsName = "appi-weatherstation-$((Get-Random -Maximum 99999))"
 )
 
 Write-Host "Starting deployment..." -ForegroundColor Green
@@ -21,7 +23,10 @@ Write-Host "Deploying infrastructure..."
 az deployment group create `
     --resource-group $resourceGroup `
     --template-file ./main.bicep `
-    --parameters functionAppName=$functionAppName
+    --parameters `
+        functionAppName=$functionAppName `
+        storageAccountName=$storageAccountName `
+        appInsightsName=$appInsightsName
 
 # -----------------------------------
 # 3?? Publish .NET Project
@@ -55,3 +60,5 @@ az functionapp deployment source config-zip `
 
 Write-Host "Deployment Complete!" -ForegroundColor Green
 Write-Host "Function App Name: $functionAppName"
+Write-Host "Storage Account Name: $storageAccountName"
+Write-Host "Application Insights Name: $appInsightsName
