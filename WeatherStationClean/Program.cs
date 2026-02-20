@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using WeatherStation.Services;
+using WeatherStationNew.Services;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults()
