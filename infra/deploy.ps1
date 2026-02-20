@@ -8,32 +8,29 @@ param(
 
 Write-Host "Starting deployment..." -ForegroundColor Green
 
-# -----------------------------------
-# 1?? Create Resource Group
-# -----------------------------------
-Write-Host "Creating resource group..."
-az group create `
-    --name $resourceGroup `
-    --location $location
+# Save original path
+$rootPath = Get-Location
 
 # -----------------------------------
-# 2?? Deploy Bicep Infrastructure
+# 1 Create Resource Group
 # -----------------------------------
-Write-Host "Deploying infrastructure..."
+az group create --name $resourceGroup --location $location
+
+# -----------------------------------
+# 2 Deploy Bicep Infrastructure
+# -----------------------------------
 az deployment group create `
     --resource-group $resourceGroup `
-    --template-file ./main.bicep `
+    --template-file "$rootPath/main.bicep" `
     --parameters `
         functionAppName=$functionAppName `
         storageAccountName=$storageAccountName `
         appInsightsName=$appInsightsName
 
 # -----------------------------------
-# 3?? Publish .NET Project
+# 3 Publish .NET Project
 # -----------------------------------
-Write-Host "Publishing .NET project..."
-
-cd ../WeatherStation
+Set-Location "$rootPath/../WeatherStation"
 
 dotnet publish -c Release -o publish
 
@@ -43,22 +40,23 @@ if (!(Test-Path publish)) {
 }
 
 # -----------------------------------
-# 4?? Zip Publish Folder
+# 4 Zip Publish Folder (CRITICAL FIX)
 # -----------------------------------
-Write-Host "Zipping project..."
-Compress-Archive -Path publish\* -DestinationPath publish.zip -Force
+Set-Location publish
+
+Compress-Archive -Path * -DestinationPath ../deploy.zip -Force
+
+Set-Location ..
 
 # -----------------------------------
-# 5?? Deploy to Azure Function
+# 5 Deploy to Azure Function
 # -----------------------------------
-Write-Host "Deploying to Azure Function..."
-
 az functionapp deployment source config-zip `
     --resource-group $resourceGroup `
     --name $functionAppName `
-    --src publish.zip
+    --src deploy.zip
 
 Write-Host "Deployment Complete!" -ForegroundColor Green
 Write-Host "Function App Name: $functionAppName"
 Write-Host "Storage Account Name: $storageAccountName"
-Write-Host "Application Insights Name: $appInsightsName
+Write-Host "Application Insights Name: $appInsightsName"
