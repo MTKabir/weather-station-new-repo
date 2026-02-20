@@ -30,7 +30,7 @@ az deployment group create `
 # -----------------------------------
 # 3 Publish .NET Project
 # -----------------------------------
-Set-Location "$rootPath/../WeatherStation"
+Set-Location "$rootPath/../WeatherStationClean"
 
 dotnet publish -c Release -o publish
 
@@ -40,7 +40,7 @@ if (!(Test-Path publish)) {
 }
 
 # -----------------------------------
-# 4 Zip Publish Folder (CRITICAL FIX)
+# 4 Zip Publish Folder 
 # -----------------------------------
 Set-Location publish
 

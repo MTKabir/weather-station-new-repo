@@ -1,0 +1,33 @@
+﻿### ==========================================
+### WeatherStation API Documentation
+### Base URL (Production)
+### ==========================================
+
+@baseUrl = https://ws-functions-prod.azurewebsites.net
+
+### ==========================================
+### 1️ Start a new image generation job
+### ==========================================
+
+POST {{baseUrl}}/api/jobs
+Content-Type: application/json
+
+###
+
+### ==========================================
+### 2️ Get job status 
+### ==========================================
+
+GET {{baseUrl}}/api/jobs/c79dc39b-f994-4fc2-a580-780344679098
+
+###
+
+### ==========================================
+### Example Workflow
+### ==========================================
+### 1. Run POST /api/jobs
+### 2. Copy returned jobId
+### 3. Replace {{jobId}} below
+### 4. Call GET /api/jobs/{{jobId}}
+### 5. Wait until status = Completed
+### 6. Open image URLs returned in response

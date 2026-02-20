@@ -61,20 +61,20 @@ namespace WeatherStationNew.Functions
 
             _logger.LogInformation("Processing image for station {Station}", message.StationName);
 
-            // 1️⃣ Download placeholder image
+            // 1️ Download placeholder image
             var imageUrl = "https://picsum.photos/600/400";
             var imageBytes = await _httpClient.GetByteArrayAsync(imageUrl);
 
-            // 2️⃣ Load image into ImageSharp
+            // 2️ Load image into ImageSharp
             using var image = Image.Load<Rgba32>(imageBytes);
 
-            // 3️⃣ Create font
+            // 3️ Create font
             var font = SystemFonts.CreateFont(SystemFonts.Families.First().Name, 36);
 
-            // 4️⃣ Prepare overlay text
+            // 4️ Prepare overlay text
             var text = $"{message.StationName}\nTemp: {message.Temperature} °C";
 
-            // 5️⃣ Draw text on image
+            // 5️ Draw text on image
             image.Mutate(ctx =>
             {
                 ctx.DrawText(
@@ -84,7 +84,7 @@ namespace WeatherStationNew.Functions
                     new PointF(20, 20));
             });
 
-            // 6️⃣ Upload modified image to Blob
+            // 6️ Upload modified image to Blob
             var blobName = $"{message.JobId}/{Guid.NewGuid()}.jpg";
             var blobClient = _containerClient.GetBlobClient(blobName);
 
@@ -96,7 +96,7 @@ namespace WeatherStationNew.Functions
 
             _logger.LogInformation("Uploaded image {BlobName}", blobName);
 
-            // 7️⃣ Update job progress safely
+            // 7️ Update job progress safely
             await UpdateJobProgressAsync(message.JobId);
         }
 

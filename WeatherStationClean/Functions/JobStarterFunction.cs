@@ -81,7 +81,7 @@ namespace WeatherStationNew.Functions
 
             _logger.LogInformation("Station count: {Count}", actualStationCount);
 
-            // 🔥 UPDATE JOB ENTITY WITH REAL COUNT
+            //  UPDATE JOB ENTITY WITH REAL COUNT
             var jobEntityResponse = await _tableClient.GetEntityAsync<JobEntity>(
                 "job",
                 startMessage.JobId);
@@ -96,7 +96,7 @@ namespace WeatherStationNew.Functions
                 jobEntity.ETag,
                 TableUpdateMode.Replace);
 
-            // 🔥 FAN-OUT
+            //  FAN-OUT
             foreach (var station in stations)
             {
                 if (!station.TryGetProperty("stationname", out var nameElement))

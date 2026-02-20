@@ -52,7 +52,7 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
 }
 
 // -----------------------------------
-// Hosting Plan (Consumption Linux)
+// Hosting Plan 
 // -----------------------------------
 resource hostingPlan 'Microsoft.Web/serverfarms@2022-09-01' = {
   name: '${functionAppName}-plan'

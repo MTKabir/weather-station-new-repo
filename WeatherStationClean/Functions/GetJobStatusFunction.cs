@@ -38,7 +38,7 @@ public class GetJobStatusFunction
     {
         _logger.LogInformation("Fetching status for job {JobId}", jobId);
 
-        // 1️⃣ Get Job from Table
+        // 1️ Get Job from Table
         JobEntity? job;
         try
         {
@@ -52,7 +52,7 @@ public class GetJobStatusFunction
             return notFound;
         }
 
-        // 2️⃣ Get Blob URLs WITH SAS
+        // 2️ Get Blob URLs WITH SAS
         var imageUrls = new List<string>();
 
         await foreach (var blobItem in _containerClient.GetBlobsAsync(
@@ -73,7 +73,7 @@ public class GetJobStatusFunction
 
         imageUrls.Sort();
 
-        // 3️⃣ Return result
+        // 3️ Return result
         var responseOk = req.CreateResponse(HttpStatusCode.OK);
 
         await responseOk.WriteAsJsonAsync(new
