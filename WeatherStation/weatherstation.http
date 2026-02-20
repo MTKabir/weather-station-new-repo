@@ -1,7 +1,0 @@
-### Start Job
-POST http://localhost:7055/api/jobs
-
-###
-
-### Get Job Status
-GET http://localhost:7055/api/jobs/{{jobId}}
